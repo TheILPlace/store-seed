@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Customer } from './models/customer';
-import { CustomerStateService } from './services/customer.state.service';
+import { CustomerStoreService } from './services/customer.store.service';
 
 
 @Component({
@@ -30,16 +30,16 @@ export class CustomersContainerComponent implements OnInit {
   selectedCustomer$: Observable<Customer>;
 
 
-  constructor(private customerStateService: CustomerStateService) {
+  constructor(private customerStoreService: CustomerStoreService) {
 
     // get list of customers from the storeService
-    this.customers$ = this.customerStateService.getCustomers();
+    this.customers$ = this.customerStoreService.getCustomers();
 
     // we need the selected customerid from the uiState, and use it 
     // to filter the customers that exists in the storeData
     // i've created a selector for this, in the storeService
 
-    this.selectedCustomer$ = this.customerStateService.getSelectedCustomer();
+    this.selectedCustomer$ = this.customerStoreService.getSelectedCustomer();
 
 
 
@@ -53,12 +53,12 @@ export class CustomersContainerComponent implements OnInit {
   }
 
   onCustomerAdded(customer: Customer) {
-    this.customerStateService.addCustomer(customer);
+    this.customerStoreService.addCustomer(customer);
 
   }
 
   onCustomerSelected(id: number) {
-    this.customerStateService.selectCustomer(id);
+    this.customerStoreService.selectCustomer(id);
   }
 
 }

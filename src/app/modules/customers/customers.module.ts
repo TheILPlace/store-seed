@@ -6,7 +6,7 @@ import { CustomersContainerComponent } from './customers-container.component';
 import { CustomersListComponent } from './customers-list.component';
 import { CustomersDetailsComponent } from './customers-details.component';
 import { CustomersResolverService } from './services/customers.resolver';
-import { CustomerStateService } from './services/customer.state.service';
+import { CustomerStoreService } from './services/customer.store.service';
 
 @NgModule({
   imports: [
@@ -15,6 +15,6 @@ import { CustomerStateService } from './services/customer.state.service';
   ],
   declarations: [CustomersContainerComponent, CustomersListComponent, CustomersDetailsComponent],
   providers: [CustomersResolverService,
-    CustomerStateService]
+    CustomerStoreService]
 })
 export class CustomersModule { }

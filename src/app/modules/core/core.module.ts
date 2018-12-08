@@ -12,10 +12,10 @@ import { CacheService } from './services/cache.service';
 
 import { environment } from '../../../environments/environment';
 import { EnsureModuleLoadedOnceGuard } from './ensureModuleLoadedOnceGuard';
-import { UiStateService } from './state/ui.state.service';
+import { UiStoreService } from './store/ui.store.service';
 
 
-
+ 
 
 export function ConfigLoader(configService: ConfigService) {
   // Note: this factory need to return a function (that return a promise)
@@ -30,7 +30,7 @@ export function ConfigLoader(configService: ConfigService) {
   ],
   declarations: [],
   providers: [HttpService, ConfigService, CacheService,
-    UiStateService,
+    UiStoreService,
 
   {
             provide: APP_INITIALIZER,
@@ -50,4 +50,3 @@ export class CoreModule extends EnsureModuleLoadedOnceGuard {
   }
 
 }
-

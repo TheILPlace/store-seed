@@ -2,20 +2,20 @@ import { RouterStateSnapshot, Router, ActivatedRouteSnapshot, Resolve } from '@a
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, filter, take } from 'rxjs/operators';
-import { CustomerStateService } from './customer.state.service';
+import { CustomerStoreService } from './customer.store.service';
 
 @Injectable()
 export class CustomersResolverService implements Resolve<boolean> {
-    constructor(private customerStateService: CustomerStateService) { }
+    constructor(private customerStoreService: CustomerStoreService) { }
     // note: change to Guard
     resolve(route: ActivatedRouteSnapshot): Observable<boolean> {
 
 
 
-        this.customerStateService.loadCustomers();
+        this.customerStoreService.loadCustomers();
         // wait for the loading process to finish, and then release the
         // user to the route.
-        return this.customerStateService.select(state => state.customersLoaded).pipe(
+        return this.customerStoreService.select(state => state.customersLoaded).pipe(
             filter(loaded => loaded),
             take(1)
         );
