@@ -1,8 +1,7 @@
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
-import * as deepFreeze from 'deep-freeze-strict';
 import { environment } from 'src/environments/environment';
-import { getStoresSnapshot } from './store.utils';
+import { getStoresSnapshot, deepFreeze } from './store.utils';
 
 export const __stores__: { [storeName: string]: Store<any> } = {};
 
@@ -17,6 +16,8 @@ export class Store<T> {
         __stores__[storeName] = this;
 
         if ( !environment.production && !this.devtools && window['devToolsExtension']) {
+            // this.devtools = window['devToolsExtension'].connect();
+
             this.devtools = window['__REDUX_DEVTOOLS_EXTENSION__'].connect();
         }
 
