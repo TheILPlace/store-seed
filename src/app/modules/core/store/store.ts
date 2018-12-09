@@ -4,21 +4,22 @@ import { environment } from '../../../../environments/environment';
 import { getStoresSnapshot, deepFreeze } from './store.utils';
 
 export const __stores__: { [storeName: string]: Store<any> } = {};
-
+export let devtools = null;
 
 export class Store<T> {
     private _store: BehaviorSubject<T>;
     private _storeValue: T;
-    private devtools;
+    //private devtools;
 
     protected constructor(storeName: string, initialState: T) {
         this._store = new BehaviorSubject(initialState);
+        
         __stores__[storeName] = this;
 
-        if ( !environment.production && !this.devtools && window['devToolsExtension']) {
+        if ( !environment.production && !devtools && window['devToolsExtension']) {
             // this.devtools = window['devToolsExtension'].connect();
-
-            this.devtools = window['__REDUX_DEVTOOLS_EXTENSION__'].connect();
+            debugger
+            devtools = window['__REDUX_DEVTOOLS_EXTENSION__'].connect();
         }
 
         //this.store$ = this._store.asObservable();
@@ -68,8 +69,8 @@ export class Store<T> {
 
     private dispatch(action: string, state: T) {
         this._store.next(state);
-        if (this.devtools) {
-            this.devtools.send(action, getStoresSnapshot(__stores__));
+        if (devtools) {
+            devtools.send(action, getStoresSnapshot(__stores__));
         }
     }
 

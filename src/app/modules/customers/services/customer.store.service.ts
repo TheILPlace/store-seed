@@ -47,6 +47,7 @@ export class CustomerStoreService extends Store<CustomerData> {
     
 
         this.setState('[Customers] LOAD', { customers: customers, customersLoaded: true});
+        
     
       }
     

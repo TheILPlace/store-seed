@@ -18,4 +18,9 @@ export class UiStoreService extends Store<UiState> {
     constructor() {
         super('UI',INITIAL_UI_STATE)
     }
+
+
+    setEditMode() {
+        this.setState('[UI]', {editMode: true});
+    }
 }
