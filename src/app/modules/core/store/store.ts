@@ -1,6 +1,6 @@
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 import { getStoresSnapshot, deepFreeze } from './store.utils';
 
 export const __stores__: { [storeName: string]: Store<any> } = {};
