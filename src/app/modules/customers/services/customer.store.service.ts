@@ -46,7 +46,7 @@ export class CustomerStoreService extends Store<CustomerData> {
         // newStoreData.customers = customers; 
     
 
-        this.setState('[Customers] LOAD', { customers: customers, customersLoaded: true});
+        this.updateState('[Customers] LOAD', { customers: customers, customersLoaded: true});
         
     
       }
@@ -55,14 +55,16 @@ export class CustomerStoreService extends Store<CustomerData> {
       addCustomer(customer: Customer) {
     
         let newCustomers = [...this.getSnapshot().customers, customer];
-        this.setState('[Customers] ADD',{customers: newCustomers})
+        //this.updateState('[Customers] ADD',{customers: newCustomers})
+         
+        this.setState('[Customers] ADD',s => ({ ...s , customers: newCustomers }))
    
       }
 
 
       selectCustomer(id: number) {
     
-        this.setState('[Customers] SELECT',{selectedCustomerID: id})
+        this.updateState('[Customers] SELECT',{selectedCustomerID: id})
        
       }
 

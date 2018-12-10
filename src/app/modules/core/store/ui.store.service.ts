@@ -21,6 +21,6 @@ export class UiStoreService extends Store<UiState> {
 
 
     setEditMode() {
-        this.setState('[UI]', {editMode: true});
+        this.updateState('[UI]', {editMode: true});
     }
 }

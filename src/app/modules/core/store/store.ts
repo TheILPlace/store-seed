@@ -9,16 +9,17 @@ export let devtools = null;
 export class Store<T> {
     private _store: BehaviorSubject<T>;
     private _storeValue: T;
+    private _storeName: string;
     //private devtools;
 
     protected constructor(storeName: string, initialState: T) {
         this._store = new BehaviorSubject(initialState);
         
         __stores__[storeName] = this;
+        this._storeName = storeName;
 
         if ( !environment.production && !devtools && window['devToolsExtension']) {
             // this.devtools = window['devToolsExtension'].connect();
-            debugger
             devtools = window['__REDUX_DEVTOOLS_EXTENSION__'].connect();
         }
 
@@ -51,9 +52,20 @@ export class Store<T> {
     // }
 
 
+    setState(action: string, newStateFn: (state: Readonly<T>) => T) {
+        const prevState = this._storeValue;
+        this._storeValue = !environment.production ? deepFreeze(newStateFn(this._storeValue)) : newStateFn(this._storeValue);
+    
+        if (prevState === this._storeValue) {
+          console.log('new state not created!', this._storeName);
+        }
+    
+        
+    
+        this.dispatch(action, this._storeValue);
+      }
 
-
-    setState(action: string, state: Partial<T>) {
+    updateState(action: string, state: Partial<T>) {
         const prevState = this._storeValue;
 
         let newState = Object.assign({}, prevState, state);
