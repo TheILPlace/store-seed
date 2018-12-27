@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Customer } from './models/customer';
 
 @Component({
@@ -12,7 +12,8 @@ import { Customer } from './models/customer';
     </div>
     <button (click)="achi()">ggg</button>
   `,
-  styles: []
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomersDetailsComponent implements OnInit {
 @Input() customer: Customer;

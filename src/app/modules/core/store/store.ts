@@ -14,11 +14,12 @@ export class Store<T> {
 
     protected constructor(storeName: string, initialState: T) {
         this._store = new BehaviorSubject(initialState);
+        this._storeValue = initialState;
         
         __stores__[storeName] = this;
         this._storeName = storeName;
 
-        if ( !environment.production && !devtools && window['devToolsExtension']) {
+        if ( !environment.production && !devtools && window['__REDUX_DEVTOOLS_EXTENSION__']) {
             // this.devtools = window['devToolsExtension'].connect();
             devtools = window['__REDUX_DEVTOOLS_EXTENSION__'].connect();
         }
@@ -51,7 +52,6 @@ export class Store<T> {
     //     this._store$.next(nextState);
     // }
 
-
     setState(action: string, newStateFn: (state: Readonly<T>) => T) {
         const prevState = this._storeValue;
         this._storeValue = !environment.production ? deepFreeze(newStateFn(this._storeValue)) : newStateFn(this._storeValue);
@@ -60,11 +60,11 @@ export class Store<T> {
           console.log('new state not created!', this._storeName);
         }
     
-        
-    
-        this.dispatch(action, this._storeValue);
+            
+        this.dispatch(action, this._storeValue, this._storeValue);
       }
 
+      
     updateState(action: string, state: Partial<T>) {
         const prevState = this._storeValue;
 
@@ -76,13 +76,13 @@ export class Store<T> {
         // }
 
 
-        this.dispatch(action,this._storeValue);
+        this.dispatch(action,state, this._storeValue);
     }
 
-    private dispatch(action: string, state: T) {
+    private dispatch(action: string, payload: any, state: T) {
         this._store.next(state);
         if (devtools) {
-            devtools.send(action, getStoresSnapshot(__stores__));
+            devtools.send({type: action, payload: payload}, getStoresSnapshot(__stores__));
         }
     }
 
