@@ -12,7 +12,7 @@ import { CacheService } from './services/cache.service';
 
 import { environment } from '../../../environments/environment';
 import { EnsureModuleLoadedOnceGuard } from './ensureModuleLoadedOnceGuard';
-import { UiStoreService } from './store/ui.store.service';
+
 
 
  
@@ -30,7 +30,6 @@ export function ConfigLoader(configService: ConfigService) {
   ],
   declarations: [],
   providers: [HttpService, ConfigService, CacheService,
-    UiStoreService,
 
   {
             provide: APP_INITIALIZER,

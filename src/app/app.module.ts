@@ -17,6 +17,7 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { AboutComponent } from './nav/about.component';
 import { PreloadSelectedModulesList } from './preload_selected_modules_list';
+import { RootStoreModule } from './modules/root-store/root-store.module';
 
 
 
@@ -28,7 +29,9 @@ import { PreloadSelectedModulesList } from './preload_selected_modules_list';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule, CoreModule
+    AppRoutingModule, 
+    CoreModule,
+    RootStoreModule
   ],
   providers: [PreloadSelectedModulesList],
   bootstrap: [AppComponent]

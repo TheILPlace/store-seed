@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '../../core/store/store';
 import { Customer } from '../models/customer';
-import { UiStoreService } from '../../core/store/ui.store.service';
+import { UiStoreService } from '../../root-store/store/ui.store.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -54,12 +54,16 @@ export class CustomerStoreService extends Store<CustomerData> {
     
       addCustomer(customer: Customer) {
     
-        let newCustomers = [...this.getSnapshot().customers, customer];
-        //this.updateState('[Customers] ADD',{customers: newCustomers})
+        //let newCustomers = [...this.getSnapshot().customers, customer];
+        ////this.updateState('[Customers] ADD',{customers: newCustomers})
          
-        this.setState('[Customers] ADD',s => ({ ...s , customers: newCustomers }))
+        //this.setState('[Customers] ADD',s => ({ ...s , customers: newCustomers }))
    
+        this.setState('[Customers] ADD',s => ({...s, customers: [...s.customers, customer]}));
+
+
       }
+
 
 
       selectCustomer(id: number) {
