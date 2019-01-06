@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Customer } from './models/customer';
 import { CustomerStoreService } from './services/customer.store.service';
+import { HttpService } from '../core/services/http.service';
 
 
 @Component({
@@ -30,7 +31,8 @@ export class CustomersContainerComponent implements OnInit {
   selectedCustomer$: Observable<Customer>;
 
 
-  constructor(private customerStoreService: CustomerStoreService) {
+  constructor(private customerStoreService: CustomerStoreService,
+    private httpService: HttpService) {
 
     // get list of customers from the storeService
     this.customers$ = this.customerStoreService.getCustomers();
@@ -49,6 +51,7 @@ export class CustomersContainerComponent implements OnInit {
 
   ngOnInit() {
 
+    this.httpService.get('https://jsonplaceholder.typicode.com/posts/42?tester=6').subscribe();
 
   }
 
