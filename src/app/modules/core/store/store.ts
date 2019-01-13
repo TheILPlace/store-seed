@@ -2,6 +2,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { getStoresSnapshot, deepFreeze } from './store.utils';
+import { Logger } from '../utilities/logger';
 
 export const __stores__: { [storeName: string]: Store<any> } = {};
 export let devtools = null;
@@ -57,7 +58,7 @@ export class Store<T> {
         this._storeValue = !environment.production ? deepFreeze(newStateFn(this._storeValue)) : newStateFn(this._storeValue);
     
         if (prevState === this._storeValue) {
-          console.log('new state not created!', this._storeName);
+            Logger.writeLog('new state not created!', this._storeName);
         }
     
             

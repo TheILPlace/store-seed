@@ -51,7 +51,7 @@ export class CustomersContainerComponent implements OnInit {
 
   ngOnInit() {
 
-    this.httpService.get('https://jsonplaceholder.typicode.com/posts/42?tester=6').subscribe();
+    //this.httpService.get('https://jsonplaceholder.typicode.com/posts/42?tester=6').subscribe();
 
   }
 

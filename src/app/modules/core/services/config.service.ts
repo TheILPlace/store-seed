@@ -5,7 +5,7 @@ import { Configuration } from '../../../shared/models/configuration';
 import { CacheService } from './cache.service';
 import { of } from 'rxjs';
 import { switchMap} from 'rxjs/operators';
-
+import { Logger }  from '../utilities/logger'
  //declare var __webpack_require__: any;
 
  
@@ -21,11 +21,12 @@ export class ConfigService {
       this.http.get<Configuration>(url).pipe(
         switchMap(config => {
           this.config = config;
-           console.log('finished loading config');
+           //console.log('finished loading config');
+           Logger.writeLog('finished loading config');
 
 
            
-           //__webpack_require__.p =  '/achilottan/';
+           //__webpack_require__.p =  '/remotelocation/';
 
            
           //return this.cacheService.loadCache(config);
@@ -33,7 +34,7 @@ export class ConfigService {
 
         }))
         .subscribe(() => {
-            console.log('finished loading ');
+          Logger.writeLog('finished loading ');
             resolve();
         });
     });

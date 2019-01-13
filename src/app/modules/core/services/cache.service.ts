@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Configuration } from '../../../shared/models/configuration';
 import { Observable } from 'rxjs';
 import { HttpClient} from '@angular/common/http'
+import { Logger } from '../utilities/logger';
 
 @Injectable()
 export class CacheService {
@@ -19,7 +20,7 @@ export class CacheService {
             // so we use the basic http servie by angular
             this.http.get<any>(config.webApiBaseUrl + '/api/cache')
                 .subscribe((data: any) => {
-                    console.log('cache loaded');
+                    Logger.writeLog('cache loaded');
 
                 });
             // we need to return an observable
