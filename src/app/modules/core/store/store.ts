@@ -3,6 +3,7 @@ import { map, distinctUntilChanged } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { getStoresSnapshot, deepFreeze } from './store.utils';
 import { Logger } from '../utilities/logger';
+import { produce, setAutoFreeze } from "immer";
 
 export const __stores__: { [storeName: string]: Store<any> } = {};
 export let devtools = null;
@@ -11,7 +12,7 @@ export class Store<T> {
     private _store: BehaviorSubject<T>;
     private _storeValue: T;
     private _storeName: string;
-    //private devtools;
+   
 
     protected constructor(storeName: string, initialState: T) {
         this._store = new BehaviorSubject(initialState);
@@ -25,7 +26,9 @@ export class Store<T> {
             devtools = window['__REDUX_DEVTOOLS_EXTENSION__'].connect();
         }
 
-        //this.store$ = this._store.asObservable();
+        setAutoFreeze(false);
+
+        
     }
 
 
@@ -53,15 +56,24 @@ export class Store<T> {
     //     this._store$.next(nextState);
     // }
 
-    setState(action: string, newStateFn: (state: Readonly<T>) => T) {
+    setState(
+        action: string,
+        newStateFn: (state: Readonly<T>) => T | void,
+        useImmer: boolean = false
+      ) {
         const prevState = this._storeValue;
-        this._storeValue = !environment.production ? deepFreeze(newStateFn(this._storeValue)) : newStateFn(this._storeValue);
+        const tempState = useImmer
+          ? produce(prevState, newStateFn)
+          : newStateFn(this._storeValue);
+
+          this._storeValue = !environment.production
+          ? deepFreeze(tempState)
+          : tempState;
     
         if (prevState === this._storeValue) {
-            Logger.writeLog('new state not created!', this._storeName);
+          Logger.writeLog("new state not created!", this._storeName);
         }
     
-            
         this.dispatch(action, this._storeValue, this._storeValue);
       }
 
@@ -69,7 +81,7 @@ export class Store<T> {
     updateState(action: string, state: Partial<T>) {
         const prevState = this._storeValue;
 
-        let newState = Object.assign({}, prevState, state);
+        const newState = Object.assign({}, prevState, state);
         this._storeValue = !environment.production ? deepFreeze(newState) : newState;
 
         // if (prevState === this._storeValue) {

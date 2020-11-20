@@ -64,7 +64,15 @@ export class CustomerStoreService extends Store<CustomerData> {
 
       }
 
-
+      addCustomerWithImmer(customer: Customer) {
+        this.setState(
+          '[Customers] Add',
+          state => {
+            state.customers.push(customer);
+          },
+          true
+        );
+      }
 
       selectCustomer(id: number) {
     
